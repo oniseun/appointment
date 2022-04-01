@@ -34,27 +34,34 @@ $ npm install
 
 ## Running the app
 ```bash
-#Create .env file and add the following
-$ PORT=2022
-$ BLOCKCHAIN_URL=http://blockchain.info
-$ REDIS_HOST=<redis host: leave black if local >
-$ REDIS_PORT=
-$ CACHE_TTL=7200
-$ MAX_ITEM_IN_CACHE=100
+# create .env file
+$ cp .env.example .env
 ```
-## `Docker run locally`
+## Docker [Run very simply]
 
+There is a `docker-compose.yml` file for starting MongoDB and backend with Docker.
+
+`$ docker-compose up`
+
+Go to 
+
+`$ http://localhost:2022/graphql`
+
+After running, you can stop the Docker container with
+
+`$ docker-compose down`
+
+## Postman Documentation Import
 ```bash
-# EXPORT blockchain environment variable
-$ EXPORT BLOCKCHAIN_URL=https://blockchain.info
+# collection
+$ src/docs/Appointment.postman_collection.json
 
+# environment
+$ src/docs/Appointment.postman_environment.json
 
-## `Docker run in production`
-```bash
-# ensure to set all environment variables in your virtual host as production will not use .env file for environment variables
-# Build the image 
-$ docker build -t  blockchain-backend-prod  -f Dockerfile.prod .
 ```
+```bash
+
 ## `Run with npm`
 ```bash
 
