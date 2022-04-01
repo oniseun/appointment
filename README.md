@@ -27,17 +27,11 @@
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Installation
-nvm use v14.17.1
+
 ```bash
-$ npm install
 ```
 
-## Running the app
-```bash
-# create .env file
-$ cp .env.example .env
-```
-## Docker [Run very simply]
+## Run with Docker [Run very simply] Recommended!
 
 There is a `docker-compose.yml` file for starting MongoDB and backend with Docker.
 
@@ -64,6 +58,14 @@ $ src/docs/Appointment.postman_environment.json
 
 ## `Run with npm`
 ```bash
+# use node 14
+$ nvm use v14.17.1
+
+# install packages with npm
+$ npm install
+
+# create .env file
+$ cp .env.example .env
 
 # development
 $ npm run start
