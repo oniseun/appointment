@@ -8,8 +8,8 @@ import { BookConsultationInput, GetConsultationsInput } from './consultation.mod
 import { ConsultationService } from './consultation.service';
 import { IConsultation } from './interfaces/consultation.interface';
 
-const weekDay = (new Date()).getDay();
-let testDate = DateTime.now().plus({days: [0, 5, 6].includes(weekDay) ? 4 : 1 }).toISODate()
+const weekDay = DateTime.now().weekday;
+let testDate = DateTime.now().plus({days: weekDay > 4 ? 3 : 1 }).toISODate()
 
 const getConsultationInput: GetConsultationsInput = {
     doctorId: "623a4be15eec415b89ed269",

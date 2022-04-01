@@ -14,8 +14,8 @@ const mockDoctor: any = {
     age: 40,
     specialization: 'Dentist'
 };
-const weekDay = (new Date()).getDay();
-let testDate = DateTime.now().plus({days: [0, 5, 6].includes(weekDay) ? 4 : 1 }).toISODate()
+const weekDay = DateTime.now().weekday;
+let testDate = DateTime.now().plus({days: weekDay > 4 ? 3 : 1 }).toISODate()
 
 const findAvailabilityInput: FindAvailabilityInput = {
     doctorId: "623a4be15eec415b89ed269",
@@ -38,8 +38,8 @@ const findAvailabilityInput: FindAvailabilityInput = {
         _id: "id123",
         doctorId: "623a4be15eec415b89ed269",
         date: new Date(testDate),
-        fromTime: '',
-        toTime: '',
+        fromTime: '09:00',
+        toTime: '10:00',
         timeslots: JSON.stringify({
             '09:00' : true,
             '09:15' : true,
@@ -167,8 +167,8 @@ describe('AvailabilityService', () => {
             _id: "id123",
             doctorId: "623a4be15eec415b89ed269",
             date: new Date(testDate),
-            fromTime: '',
-            toTime: '',
+            fromTime: '09:00',
+            toTime: '10:00',
             timeslots: JSON.stringify({
                 '09:00' : true,
                 '09:15' : true,

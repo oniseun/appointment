@@ -85,6 +85,10 @@ export class AvailabilityService {
     if (DateTime.fromISO(date).toMillis() < DateTime.now().toMillis() ){
       throw new BadRequestException("Date cannot be in the past")
     }
+    if (DateTime.fromISO(date).weekday > 5 ){
+      throw new BadRequestException("Date can only be on a weekday")
+    }
+    
     const doctor = await this.doctorModel.findById({ _id: doctorId }).exec();
 
     if (!doctor) {
