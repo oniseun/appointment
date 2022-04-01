@@ -1,187 +1,210 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConsultationService } from './consultation.service';
-import { NotFoundException } from '@nestjs/common';
+import { IAvailability } from '../availability/interfaces/availability.interface';
 import { getModelToken } from '@nestjs/mongoose';
-import { IConsultation } from './interfaces/consultation.interface';
 import { Model } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
+import { DateTime } from 'luxon';
+import { BookConsultationInput, GetConsultationsInput } from './consultation.model';
+import { ConsultationService } from './consultation.service';
+import { IConsultation } from './interfaces/consultation.interface';
 
-// const mockCustomer: any = {
-//   firstName: 'firstName #1',
-//   lastName: 'lastName #1',
-//   email: 'test@example.it',
-//   phone: '1234567890',
-//   address: 'address #1',
-//   description: 'description #1',
-//   organizations: 'organization #1',
-// };
+const weekDay = (new Date()).getDay();
+let testDate = DateTime.now().plus({days: [0, 5, 6].includes(weekDay) ? 4 : 1 }).toISODate()
 
-// const mockCustomerUpdate: any = {
-//   _id: 'anyid',
-//   firstName: 'firstName update',
-//   lastName: 'lastName update',
-//   email: 'test@example.it',
-//   phone: '1234567890',
-//   address: 'address update',
-//   description: 'description update',
-//   organizations: 'organization update',
-// };
+const getConsultationInput: GetConsultationsInput = {
+    doctorId: "623a4be15eec415b89ed269",
+    date: '2022-04-01'
+  };
 
-// const customersArray = [
-//   {
-//     _id: 'anyid',
-//     firstName: 'firstName #1',
-//     lastName: 'lastName #1',
-//     email: 'test@example.it',
-//     phone: '1234567890',
-//     address: 'address #1',
-//     description: 'description #1',
-//     organizations: 'organization #1',
-//   },
-//   {
-//     _id: 'anyid',
-//     firstName: 'firstName #2',
-//     lastName: 'lastName #2',
-//     email: 'test@example.it',
-//     phone: '1234567890',
-//     address: 'address #2',
-//     description: 'description #2',
-//     organizations: 'organization #2',
-//   },
-// ];
+  const bookConsultationInput: BookConsultationInput = {
+    doctorId: "623a4be15eec415b89ed269",
+    date: testDate,
+    fromTime: '09:00',
+    toTime: '10:00',
+    patientName: 'David grey',
+    consultationId: 'id1234'
+  };
+  const bookConsultationResponse = {
+    _id: "id123",
+    doctorId: "623a4be15eec415b89ed269",
+    patientName: 'David grey',
+    date: new Date(testDate),
+    fromTime: '09:00',
+    toTime: '09:30',
+    fromDateTime: new Date(`${testDate}T09:00`),
+    toDateTime: new Date(`${testDate}T09:30`),
+    tz: "Europe/Berlin",
+    consultationId: 'id1234'
+  }
 
-// const createCustomerDto: CreateDoctorDto = {
-//   firstName: 'firstName #1',
-//   lastName: 'lastName #1',
-//   email: 'test@example.it',
-//   phone: '1234567890',
-//   address: 'address #1',
-//   description: 'description #1',
-//   organizations: 'organization #1',
-// };
+  const consultation = {
+    _id: "id123",
+    doctorId: "623a4be15eec415b89ed269",
+    patientName: 'David grey',
+    date: new Date('2022-04-01'),
+    fromTime: '09:00',
+    toTime: '09:30',
+    fromDateTime: new Date('2022-04-01T09:00'),
+    toDateTime: new Date('2022-04-01T09:00'),
+    tz: "Europe/Berlin",
+    consultationId: 'id1234'
+  }
 
-// const updateCustomerDto: UpdateDoctorDto = {
-//   firstName: 'firstName update',
-//   lastName: 'lastName update',
-//   email: 'test@example.it',
-//   phone: '1234567890',
-//   address: 'address update',
-//   description: 'description update',
-//   organizations: 'organization update',
-// };
+  const consultations = [
+      {
+        _id: "id123",
+        doctorId: "623a4be15eec415b89ed269",
+        patientName: 'David grey',
+        date: new Date('2022-04-01'),
+        fromTime: '09:00',
+        toTime: '09:30',
+        fromDateTime: new Date('2022-04-01T09:00'),
+        toDateTime: new Date('2022-04-01T09:00'),
+        tz: "Europe/Berlin",
+        consultationId: 'id1234'
+      },
+      {
+        _id: "id1234",
+        doctorId: "623a4be15eec415b89ed269",
+        patientName: 'David grey',
+        date: new Date('2022-04-01'),
+        fromTime: '09:30',
+        toTime: '10:00',
+        fromDateTime: new Date('2022-04-01T09:00'),
+        toDateTime: new Date('2022-04-01T09:00'),
+        tz: "Europe/Berlin",
+        consultationId: 'id123455'
+      },
 
-// describe('CustomersService', () => {
-//   let service: CustomersService;
-//   let model: Model<ICustomer>;
+  ]
 
-//   const paginationQueryDto: PaginationQueryDto = {
-//     limit: 10,
-//     offset: 1,
-//   };
+  const availabilities = [
+    {
+      _id: "id123",
+      doctorId: "623a4be15eec415b89ed269",
+      date: new Date('2022-04-01'),
+      fromTime: '',
+      toTime: '',
+      timeslots: JSON.stringify({
+          '09:00' : true,
+          '09:15' : true,
+          '09:30' : true,
+          '09:45' : true,
+          '10:00' : true
+      }),
+      tz: "Europe/Berlin",
+    }
+]
 
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       providers: [
-//         CustomersService,
-//         {
-//           provide: getModelToken('Customer'),
-//           useValue: {
-//             find: jest.fn().mockReturnValue(customersArray),
-//             findById: jest.fn(),
-//             findByIdAndUpdate: jest.fn(),
-//             findByIdAndRemove: jest.fn(),
-//             new: jest.fn().mockResolvedValue(mockCustomer),
-//             constructor: jest.fn().mockResolvedValue(mockCustomer),
-//             create: jest.fn().mockResolvedValue(createCustomerDto),
-//             findAll: jest.fn(),
-//             findOne: jest.fn(),
-//             update: jest.fn(),
-//             remove: jest.fn(),
-//             exec: jest.fn(),
-//             populate: jest.fn(),
-//             skip: jest.fn(),
-//             offset: jest.fn(),
-//           },
-//         },
-//       ],
-//     }).compile();
 
-//     service = module.get<DoctorsService>(DoctorsService);
-//     model = module.get<Model<IDoctor>>(getModelToken('Doctor'));
-//   });
+describe('ConsultationService', () => {
+  let service: ConsultationService;
+  let consultationModel: Model<IConsultation>;
+  let availabilityModel: Model<IAvailability>;
 
-//   it('should be defined', () => {
-//     expect(service).toBeDefined();
-//   });
 
-//   describe('findAll()', () => {
-//     it('should return all customers', async () => {
-//       jest.spyOn(model, 'find').mockReturnValue({
-//         exec: jest.fn().mockResolvedValueOnce(customersArray),
-//         skip: jest.fn().mockReturnThis(),
-//         limit: jest.fn().mockReturnThis(),
-//         populate: jest.fn().mockReturnThis(),
-//       } as any);
-//       const customers = await service.findAll(paginationQueryDto);
-//       expect(customers).toEqual(customersArray);
-//     });
-//   });
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        ConsultationService,
+        ConfigService,
 
-//   describe('findOne()', () => {
-//     it('should return one customer', async () => {
-//       const findSpy = jest.spyOn(model, 'findById').mockReturnValueOnce({
-//         exec: jest.fn().mockResolvedValueOnce(mockCustomer),
-//         populate: jest.fn().mockReturnThis(),
-//       } as any);
-//       const response = await service.findOne('anyid');
-//       expect(findSpy).toHaveBeenCalledWith({ _id: 'anyid' });
-//       expect(response).toEqual(mockCustomer);
-//     });
+        {
+          provide: getModelToken('Consultation'),
+          useValue: {
+            find: jest.fn().mockReturnValue([consultation]),
+            findById: jest.fn().mockResolvedValue(consultation),
+            findByIdAndUpdate: jest.fn(),
+            findByIdAndRemove: jest.fn(),
+            new: jest.fn().mockResolvedValue(consultation),
+            constructor: jest.fn().mockResolvedValue(consultation),
+            create: jest.fn().mockResolvedValue(consultation),
+            findAll: jest.fn(),
+            findOne: jest.fn(),
+            update: jest.fn(),
+            remove: jest.fn(),
+            exec: jest.fn(),
+            populate: jest.fn(),
+            skip: jest.fn(),
+            offset: jest.fn(),
+          },
+          
+        },
+        {
+            provide: getModelToken('Availability'),
+            useValue: {
+              find: jest.fn().mockReturnValue(availabilities),
+              findById: jest.fn(),
+              findByIdAndUpdate: jest.fn(),
+              findByIdAndRemove: jest.fn(),
+              new: jest.fn().mockResolvedValue(availabilities[0]),
+              constructor: jest.fn().mockResolvedValue(availabilities[0]),
+              create: jest.fn().mockResolvedValue(availabilities[0]),
+              findAll: jest.fn(),
+              findOne: jest.fn(),
+              update: jest.fn(),
+              remove: jest.fn(),
+              exec: jest.fn(),
+              populate: jest.fn(),
+              skip: jest.fn(),
+              offset: jest.fn(),
+            },
+            
+          },
+      ],
+    }).compile();
 
-//     it('should throw if find one customer throws', async () => {
-//       jest.spyOn(model, 'findById').mockReturnValueOnce({
-//         exec: jest.fn(() => null),
-//         populate: jest.fn().mockReturnThis(),
-//       } as any);
-//       await expect(service.findOne('anyid')).rejects.toThrow(
-//         new NotFoundException('Customer #anyid not found'),
-//       );
-//     });
-//   });
+    service = module.get<ConsultationService>(ConsultationService);
+    availabilityModel = module.get<Model<IAvailability>>(getModelToken('Availability'));
+    consultationModel = module.get<Model<IConsultation>>(getModelToken('Consultation'));
+  });
 
-//   describe('create()', () => {
-//     it('should insert a new organization', async () => {
-//       jest.spyOn(model, 'create').mockImplementationOnce(() =>
-//         Promise.resolve({
-//           _id: 'a id',
-//           firstName: 'firstName #1',
-//           lastName: 'lastName #1',
-//           email: 'test@example.it',
-//           phone: '1234567890',
-//           address: 'address #1',
-//           description: 'description #1',
-//           organizations: 'organization #1',
-//         }),
-//       );
-//       const newCustomer = await service.create({
-//         firstName: 'firstName #1',
-//         lastName: 'lastName #1',
-//         email: 'test@example.it',
-//         phone: '1234567890',
-//         address: 'address #1',
-//         description: 'description #1',
-//         organizations: 'organization #1',
-//       });
-//       expect(newCustomer).toEqual({
-//         _id: 'a id',
-//         firstName: 'firstName #1',
-//         lastName: 'lastName #1',
-//         email: 'test@example.it',
-//         phone: '1234567890',
-//         address: 'address #1',
-//         description: 'description #1',
-//         organizations: 'organization #1',
-//       });
-//     });
-//   });
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 
-// });
+  describe('findAll()', () => {
+    it('should return consultations given doctorId and date', async () => {
+   jest.spyOn(consultationModel, 'find').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce(consultations),
+        skip: jest.fn().mockReturnThis(),
+        limit: jest.fn().mockReturnThis(),
+        populate: jest.fn().mockReturnThis(),
+      } as any); 
+
+      const consultation_list = await service.findAll(getConsultationInput);
+      expect(consultation_list).toStrictEqual(consultations);
+    });
+  });
+
+  describe('findOne()', () => {
+    it('should consultation by consultationId', async () => {
+      const findSpy = jest.spyOn(consultationModel, 'findOne').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(consultation),
+        populate: jest.fn().mockReturnThis(),
+      } as any);
+      const response = await service.findOne('id123');
+      expect(findSpy).toHaveBeenCalledWith({ consultationId: 'id123' });
+      expect(response).toEqual(consultation);
+    });
+})
+
+  describe('create()', () => {
+    it('should create availability for a doctor given an input', async () => {
+        jest.spyOn(availabilityModel, 'findOne').mockReturnValue({
+            exec: jest.fn().mockResolvedValueOnce(availabilities[0]),
+            skip: jest.fn().mockReturnThis(),
+            limit: jest.fn().mockReturnThis(),
+            populate: jest.fn().mockReturnThis(),
+        } as any
+      );
+      jest.spyOn(consultationModel, 'create').mockImplementationOnce(() =>
+      Promise.resolve(bookConsultationResponse),
+    ); 
+
+      const newConsultation = await service.create(bookConsultationInput);
+      expect(newConsultation).toStrictEqual(bookConsultationResponse);
+    });
+  });
+
+});
