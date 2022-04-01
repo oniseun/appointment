@@ -20,6 +20,10 @@ const availableTimeSlots = [
         toTime: '09:30'
     },
     {
+        fromTime: '09:15',
+        toTime: '09:45'
+    },
+    {
         fromTime: '09:30',
         toTime: '10:00'
     }

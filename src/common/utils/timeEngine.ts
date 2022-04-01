@@ -39,47 +39,43 @@ export const createTimeSlots = (timeslot, steps: number) => {
 
 export const getAvailableTimeslots = (timeslots, duration: number, steps: number) => {
  
-  const availableTimeslots = [];
-  const matches = []
-  const timeList = Object.keys(timeslots);
-  const roundDuration = roundMinutes(duration, steps)
-  let target;
+    const timeList = Object.keys(timeslots);
+    const roundDuration = roundMinutes(duration, steps)
+    const innerCount = (roundDuration / steps) + 1
 
-  for (let t = 0; t < timeList.length; t++) {
-        const currentTime = timeList[t]
-        const nextTime = timeList[t + 1]
-        const nextTimeAvailable = timeslots[nextTime]
+    if (innerCount === 2) {
+        return timeList.reduce((pairs, fromTime) => {
+            const toTime = DateTime.fromISO(fromTime).plus({ minutes: roundDuration }).toFormat('T')
+              if (timeslots[toTime] === true || timeslots[fromTime] === true  ) {
+                pairs.push({ fromTime, toTime })
+              }
+              return pairs
+        }, [])
+    }
+
+    return timeList.reduce((pairs, currentTime) => {
         const targetTime = DateTime.fromISO(currentTime).plus({ minutes: roundDuration }).toFormat('T')
-        const targetTimeAvailable = timeslots[targetTime]
-        const nextCurrentDiff = (Interval.fromDateTimes(DateTime.fromISO(currentTime), DateTime.fromISO(nextTime))).length('minutes');
-        const targetGreaterThanCurrent = DateTime.fromISO(target).toMillis() > DateTime.fromISO(currentTime).toMillis()
-     if (!target && targetTimeAvailable === true && nextTimeAvailable === true) {
-          target = targetTime
-          matches.push(currentTime)
-      }  else if (target === currentTime) {
-          matches.push(currentTime)
-          availableTimeslots.push({
-              fromTime: matches[0],
-              toTime: matches[matches.length - 1]
-          }) 
-          matches.splice(0, matches.length)
-
-          if (targetTimeAvailable === true && nextTimeAvailable === true) {
-              target = targetTime
-              matches.push(currentTime)
-          } else {
-              target = undefined
+          if (timeslots[targetTime] !== undefined) {
+            pairs.push([currentTime, targetTime])
           }
-      } else if (target && nextCurrentDiff === steps && targetGreaterThanCurrent ){
-          matches.push(currentTime)
-      } else {
-          target = undefined
-          matches.splice(0, matches.length)
-      }
-      // console.log({target, currentTime, currentTimeAvailable, nextTime, nextTimeAvailable, targetTime, targetTimeAvailable, matches, })
-  }
+          return pairs
+    }, []).reduce((ts, pair) => {
+            const [fromTime, toTime] = pair
+            const fromTimeObj = DateTime.fromISO(fromTime)
+            const matches = []
+            for (let m = steps; m < roundDuration; m += steps) {
+                const time = fromTimeObj.plus({ minutes: m }).toFormat('T')
+                if (timeslots[time] !== true) {
+                    break;
+                }
+                matches.push(timeslots[time])
+            }
+            if (matches.length === innerCount - 2) {
+                ts.push({ fromTime,  toTime })
+            }
 
-  return availableTimeslots
+            return ts
+    }, [])
 }
 
 export const bookTimeSlot = (fromTime: string, toTime: string, timeSlots, steps) => {

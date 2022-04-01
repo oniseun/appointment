@@ -61,6 +61,12 @@ const findAvailabilityInput: FindAvailabilityInput = {
     {
         doctorId: "623a4be15eec415b89ed269",
         date: new Date(testDate),
+        fromTime: '09:15',
+        toTime: '09:45'
+    },
+    {
+        doctorId: "623a4be15eec415b89ed269",
+        date: new Date(testDate),
         fromTime: '09:30',
         toTime: '10:00'
     }
