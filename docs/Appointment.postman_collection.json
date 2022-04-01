@@ -76,6 +76,150 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "removeDoctor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation {\n    removeDoctor(\n        doctorId: \"623a50e5a55b2e5e6a9374d2\"\n  ) {\n        fullName\n        age\n        specialization\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{API_ENDPOINT}}/graphql",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAvailability",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation {\n    createAvailability(\n        input: { \n            doctorId: \"623a4be15eec415b89ed269\"\n            date: \"2022-03-24\"\n            timeslots: [{\n                fromTime: \"8:14\"\n                toTime: \"14:34\"\n            },{\n                fromTime: \"15:00\"\n                toTime: \"17:13\"\n            }\n            ]\n        }\n    ) {\n        _id\n        doctorId\n        date\n        fromTime\n        toTime\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{API_ENDPOINT}}/graphql",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findAvailability",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\n    getAllAvailability(\n        input: { \n            doctorId: \"623a4be15eec415b89e0d269\"\n            fromDate: \"2022-03-24\"\n            toDate: \"2022-03-24\"\n            duration: 30\n        }\n    )  {\n            doctorId\n            fromDate\n            toDate\n            duration\n            timeslots {\n                date\n                timeSlots {\n                    key\n                    from {\n                        hour \n                        min\n                        available\n                    }\n                    to {\n                        hour \n                        min\n                        available\n                    }\n                    slots\n                }\n            }\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{API_ENDPOINT}}/graphql",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bookConsultation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation {\n    bookConsultation(\n        input: { \n            doctorId: \"623a4be15eec415b89e0d269\"\n            date: \"2022-03-24\"\n            fromHour: 10\n            fromMin: 15\n            patientName: \"Oni Victor\"\n            duration: 30\n            consultationId: \"consultation1234567\"\n        }\n    ) {\n            _id\n            doctorId\n            patientName\n            date\n            fromHour\n            fromMin\n            toHour\n            toMin\n            duration\n            tz\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{API_ENDPOINT}}/graphql",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getConsultations",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\n    getConsultations(\n        input: { \n            doctorId: \"623a4be15eec415b89ed269\"\n            date: \"2022-03-24\"\n        }\n    )  {\n             _id\n            doctorId\n            patientName\n            consultationId\n            date\n            fromTime\n            toTime\n            tz\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{API_ENDPOINT}}/graphql",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getConsultation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\n    getConsultation(\n            consultationId: \"consul12rr345678790\"\n    )  {\n            _id\n            doctorId\n            patientName\n            consultationId\n            date\n            fromTime\n            toTime\n            tz\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{API_ENDPOINT}}/graphql",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

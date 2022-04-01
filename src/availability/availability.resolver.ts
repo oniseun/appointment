@@ -14,9 +14,9 @@ export class AvailabilityResolver {
   }
 
 
-  @Mutation(returns => [Availability])
+  @Mutation(returns => Availability)
   async createAvailability(@Args('input') createAvailabilityInput: CreateAvailabilityInput
-  ): Promise<Availability[] | NotFoundException> {
+  ): Promise<Availability | NotFoundException> {
     try {
       return await this.service.create(createAvailabilityInput);
     } catch (err) {

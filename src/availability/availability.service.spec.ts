@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AvailabilityService } from './availability.service';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { IAvailability } from './interfaces/availability.interface';

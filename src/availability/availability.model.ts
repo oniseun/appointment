@@ -9,6 +9,7 @@ import {
   IsDate,
   IsArray,
   IsMilitaryTime,
+  Max,
 } from 'class-validator';
 
 
@@ -114,6 +115,7 @@ export class FindAvailabilityInput {
   toDate: string;
 
   @IsInt()
+  @IsNotEmpty()
   @Field(() => Int)
   duration: number;
 

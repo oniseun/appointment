@@ -2,7 +2,9 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Date, Document, Types } from 'mongoose';
 
 
-@Schema()
+@Schema({
+  autoIndex: true,
+})
 export class Availability extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Doctor' })
   doctorId: string;
@@ -24,5 +26,7 @@ export class Availability extends Document {
 
 }
 
-export const AvailabilitySchema = SchemaFactory.createForClass(Availability).index({ doctorId: 1, date: 1, fromHour: 1, fromMin: 1, toHour:1, toMin:1});
+export const AvailabilitySchema = SchemaFactory.createForClass(Availability)
+
+AvailabilitySchema.index({ doctorId: 1, date: 1}, {unique: true});
 
