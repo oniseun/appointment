@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AvailabilityService } from './availability.service';
 import { IAvailability } from './interfaces/availability.interface';
-import { DoctorsService } from '../doctors/doctors.service';
-import { NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { IDoctor } from '../doctors/interfaces/doctor.interface';
 import { Model } from 'mongoose';

@@ -5,10 +5,8 @@ import {
   IsNotEmpty,
   IsInt,
   IsString,
-  IsOptional,
   MinLength,
 } from 'class-validator';
-import { isRequiredArgument } from 'graphql';
 
 
 @ObjectType()

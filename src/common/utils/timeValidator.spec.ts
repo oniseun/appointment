@@ -6,25 +6,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { isOpeningHours, validateTimeSlotInput } from './timeValidator'
 
-const STEPS = 15
-const timeSlots = {
-    '9:00' : true,
-    '9:15' : true,
-    '9:30' : true,
-    '9:45' : true,
-    '10:00' : true
-}
-
-const availableTimeSlots = [
-    {
-        fromTime: '9:00',
-        toTime: '9:30'
-    },
-    {
-        fromTime: '9:30',
-        toTime: '10:00'
-    }
-]
 describe('timeValidator.isOpeningHours() check if time falls in opening hours ', () => {
     /**
      *  opening hours is between 08:00 - 12:00 and 14:00 - 18:00

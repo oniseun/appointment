@@ -1,13 +1,11 @@
-import { Field, Int, ObjectType, InputType } from '@nestjs/graphql';
+import { Field,  ObjectType, InputType } from '@nestjs/graphql';
 import { Date } from 'mongoose';
 import {
   MaxLength,
   IsNotEmpty,
-  IsInt,
   IsString,
   IsOptional,
   IsDate,
-  IsArray,
   IsMilitaryTime
 } from 'class-validator';
 
