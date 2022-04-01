@@ -1,0 +1,38 @@
+
+version: "3.7"
+services:
+    mongodb:
+        container_name: shp-mongo-database
+        image: mongo
+        environment:
+        - MONGO_INITDB_DATABASE="appointment"
+        ports:
+        - "27017:27017"
+        networks:
+            shp-network:
+                ipv4_address: 172.27.0.21
+                aliases:
+                - mongodb.net.local
+    backend:
+        container_name: shp-backend
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        ports:
+        - "2022:2022"
+        links:
+            - mongodb
+        environment:
+            - MONGODB_URL='mongodb://172.27.0.21:27017/appointment'
+        networks:
+            shp-network:
+                ipv4_address: 172.27.0.22
+                aliases:
+                - shp-backend.local
+
+networks:
+    shp-network:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.27.0.0/16
