@@ -14,9 +14,6 @@ export class Doctor extends Document {
 
   @Prop()
   specialization: string;
-
-  // @Prop({ type: [Types.ObjectId], ref: 'Organization' })
-  // organizations: string;
 }
 
 export const DoctorSchema = SchemaFactory.createForClass(Doctor);

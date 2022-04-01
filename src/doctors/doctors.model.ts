@@ -4,10 +4,11 @@ import {
   MaxLength,
   IsNotEmpty,
   IsInt,
-  IsEnum,
   IsString,
   IsOptional,
+  MinLength,
 } from 'class-validator';
+import { isRequiredArgument } from 'graphql';
 
 
 @ObjectType()
@@ -22,9 +23,6 @@ export class Doctor {
   readonly age: number;
 
   @Field()
-  readonly sex: string;
-
-  @Field()
   readonly specialization: string;
 }
 
@@ -35,6 +33,7 @@ export class AddDoctorInput {
 
   @IsString()
   @MaxLength(30)
+  @MinLength(5)
   @IsNotEmpty()
   @Field()
   fullName: string;
@@ -42,18 +41,13 @@ export class AddDoctorInput {
 
   @IsInt()
   @MaxLength(2)
-  @IsOptional()
+  @IsNotEmpty()
   @Field(() => Int)
   age: number;
 
-  @IsEnum({ M: "M", F: "F"})
-  @MaxLength(1)
-  @IsNotEmpty()
-  @Field()
-  sex: string;
-
   @IsString()
   @MaxLength(30)
+  @MinLength(5)
   @IsNotEmpty()
   @Field()
   specialization: string;
