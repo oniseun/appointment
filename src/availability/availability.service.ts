@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { IAvailability } from './interfaces/availability.interface';
 import { CreateAvailabilityInput, AllAvailability, FindAvailabilityInput } from './availability.model';
 import { Availability } from './schemas/availability.schema';
-import { getAvailableTimeslots, createTimeSlots, createTimeSlot } from '../common/utils/transformer';
+import { getAvailableTimeslots, createTimeSlots, createTimeSlot } from '../common/utils/timeEngine';
 import { ConfigService } from '@nestjs/config';
 const STEPS = 15;
 
@@ -29,8 +29,6 @@ export class AvailabilityService {
     }, 
   } as unknown)
     .exec();
-
-  console.log({availabilities})
 
   const dateTimeSlots =  availabilities.map(item => {
     const { date, timeslots } =  item;

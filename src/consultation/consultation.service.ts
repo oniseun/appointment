@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { IConsultation } from './interfaces/consultation.interface';
 import { BookConsultationInput, GetConsultationsInput } from './consultation.model';
 import { Consultation } from './schemas/consultation.schema';
-import { getAvailableTimeslots, bookTimeSlot } from '../common/utils/transformer';
+import { getAvailableTimeslots, bookTimeSlot } from '../common/utils/timeEngine';
 import { Availability } from 'src/availability/schemas/availability.schema';
 import { IAvailability } from 'src/availability/interfaces/availability.interface';
 import { ConfigService } from '@nestjs/config';
@@ -69,9 +69,7 @@ export class ConsultationService {
     }
 
     const { timeslots } = availability;
-    
-    console.log({fromTime, toTime, duration, tz, fromDateTime, toDateTime, off: DateTime.local()
-      .toFormat('ZZZ')})
+  
     const availableTimeSlots = getAvailableTimeslots(JSON.parse(timeslots), duration, STEPS);
     const find = availableTimeSlots.find((ts) => ts.fromTime === fromTime && ts.toTime === toTime); 
 
