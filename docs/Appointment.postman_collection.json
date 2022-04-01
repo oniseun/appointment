@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "4d003694-edf2-4faf-9b98-1e5b3871ce49",
+		"name": "Appointment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getAllDoctors",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\n    getAllDoctors {\n        fullName\n        age\n        specialization\n        sex\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{API_ENDPOINT}}/graphql",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getDoctor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\n    getDoctor(\n    doctorId: \"00000000000000000000739e74727078837e6699f905d71a17c3167fdce741d2\"\n  ) {\n        fullName\n        age\n        specialization\n        sex\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{API_ENDPOINT}}/graphql",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addDoctor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\n    addDoctor(\n        input: { \n            fullName: \"Test fullName\"\n            age: 28\n            specialization: \"Dentist\"\n            sex: \"M\"\n        }\n    ) {\n        fullName\n        age\n        specialization\n        sex\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{API_ENDPOINT}}/graphql",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
