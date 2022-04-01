@@ -8,7 +8,7 @@ import { ConsultationService } from './consultation.service';
 export class ConsultationResolver {
   constructor(private service: ConsultationService) {}
 
-  @Mutation(returns => ConsultationDetail)
+  @Mutation(() => ConsultationDetail)
   async bookConsultation(@Args('input') bookConsultationInput: BookConsultationInput): Promise<ConsultationDetail | Error> {
     try {
       return await this.service.create(bookConsultationInput);
@@ -19,7 +19,7 @@ export class ConsultationResolver {
   }
 
 
-  @Query(returns => [ConsultationDetail])
+  @Query(() => [ConsultationDetail])
   async getConsultations(@Args('input') getConsultationsInput: GetConsultationsInput
   ): Promise<ConsultationDetail[] | NotFoundException> {
     try {
@@ -30,7 +30,7 @@ export class ConsultationResolver {
     }
   }
 
-  @Query(returns => ConsultationDetail)
+  @Query(() => ConsultationDetail)
   async getConsultation(@Args('consultationId') consultationId: string
   ): Promise<ConsultationDetail | NotFoundException> {
     try {

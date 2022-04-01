@@ -31,9 +31,6 @@ export class Availability {
   readonly toTime: string;
 
   @Field()
-  readonly timeslots: string;
-
-  @Field()
   readonly tz: string;
 
 }

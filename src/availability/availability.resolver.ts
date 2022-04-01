@@ -8,13 +8,13 @@ import { AvailabilityService } from './availability.service';
 export class AvailabilityResolver {
   constructor(private service: AvailabilityService) {}
 
-  @Query(returns => [AllAvailability])
+  @Query(() => [AllAvailability])
   async findAvailability(@Args('input') findAvailabilityInput: FindAvailabilityInput): Promise<AllAvailability[] | Error> {
     return await this.service.findAll(findAvailabilityInput);
   }
 
 
-  @Mutation(returns => Availability)
+  @Mutation(() => Availability)
   async createAvailability(@Args('input') createAvailabilityInput: CreateAvailabilityInput
   ): Promise<Availability | NotFoundException> {
     try {

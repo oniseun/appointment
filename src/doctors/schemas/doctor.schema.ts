@@ -1,18 +1,15 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 @Schema()
 export class Doctor extends Document {
-  @Prop({ unique: true})
+  @Prop({ unique: true, required: true})
   fullName: string;
 
-  @Prop()
+  @Prop({ required: true})
   age: number;
 
-  @Prop()
-  sex: string;
-
-  @Prop()
+  @Prop({ required: true })
   specialization: string;
 }
 

@@ -1,27 +1,27 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Date, Document, Types } from 'mongoose';
 
-
+const defaultTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 @Schema({
   autoIndex: true,
 })
 export class Availability extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Doctor' })
+  @Prop({ type: Types.ObjectId, ref: 'Doctor', required: true })
   doctorId: string;
 
-  @Prop({ type: Date})
+  @Prop({ type: Date, required: true})
   date: Date;
 
-  @Prop()
+  @Prop({ required: true})
   fromTime: string;
 
-  @Prop()
+  @Prop({ required: true})
   toTime: string;
 
-  @Prop()
+  @Prop({ required: true})
   timeslots: string;
 
-  @Prop()
+  @Prop({ required: true, default: defaultTz})
   tz: string;
 
 }

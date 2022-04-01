@@ -9,7 +9,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AvailabilityModule } from './availability/availability.module';
 import { ConsultationModule } from './consultation/consultation.module';
-
+const isProd = process.env.NODE_ENV === 'production' 
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -32,7 +32,7 @@ import { ConsultationModule } from './consultation/consultation.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       debug: false,
-      playground: false,
+      playground: !isProd,
       autoSchemaFile: true,
     }),
   ],

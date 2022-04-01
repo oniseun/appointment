@@ -30,7 +30,6 @@
     "@nestjs/mapped-types": "1.0.0",
     "@nestjs/mongoose": "^8.0.1",
     "@nestjs/platform-express": "^8.0.0",
-    "@nestjs/swagger": "^5.1.5",
     "apollo-server-express": "^3.6.5",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",

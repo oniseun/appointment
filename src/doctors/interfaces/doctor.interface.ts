@@ -1,4 +1,4 @@
-import { Date, Document } from 'mongoose';
+import { Document } from 'mongoose';
 
 export interface IDoctor extends Document {
   readonly _id?: string;

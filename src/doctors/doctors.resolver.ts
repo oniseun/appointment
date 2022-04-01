@@ -8,19 +8,19 @@ import { DoctorsService } from './doctors.service';
 export class DoctorsResolver {
   constructor(private service: DoctorsService) {}
 
-  @Query(returns => [Doctor])
+  @Query(() => [Doctor])
   async getAllDoctors(): Promise<Doctor[] | Error> {
     return await this.service.findAll();
   }
 
-  @Query(returns => Doctor)
+  @Query(() => Doctor)
   async getDoctor(@Args('doctorId') doctorId: string): Promise<Doctor | NotFoundException> {
 
     return await this.service.findOne(doctorId);
 
   }
 
-  @Mutation(returns => Doctor)
+  @Mutation(() => Doctor)
   async addDoctor(@Args('input') addDoctorInput: AddDoctorInput
   ): Promise<Doctor | NotFoundException> {
     try {
@@ -31,7 +31,7 @@ export class DoctorsResolver {
     }
   }
 
-  @Mutation(returns => Doctor)
+  @Mutation(() => Doctor)
   async removeDoctor(@Args('doctorId') doctorId: string): Promise<Doctor | NotFoundException> {
 
     return await this.service.remove(doctorId);
