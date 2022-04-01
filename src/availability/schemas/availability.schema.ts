@@ -26,7 +26,5 @@ export class Availability extends Document {
 
 }
 
-export const AvailabilitySchema = SchemaFactory.createForClass(Availability)
-
-AvailabilitySchema.index({ doctorId: 1, date: 1}, {unique: true});
+export const AvailabilitySchema = SchemaFactory.createForClass(Availability).index({ doctorId: 1, date: 1}, {unique: true});
 

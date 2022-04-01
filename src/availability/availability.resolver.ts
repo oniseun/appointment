@@ -9,7 +9,7 @@ export class AvailabilityResolver {
   constructor(private service: AvailabilityService) {}
 
   @Query(returns => [AllAvailability])
-  async getAllAvailability(@Args('input') findAvailabilityInput: FindAvailabilityInput): Promise<AllAvailability[] | Error> {
+  async findAvailability(@Args('input') findAvailabilityInput: FindAvailabilityInput): Promise<AllAvailability[] | Error> {
     return await this.service.findAll(findAvailabilityInput);
   }
 

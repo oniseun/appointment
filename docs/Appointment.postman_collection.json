@@ -133,7 +133,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "query {\n    getAllAvailability(\n        input: { \n            doctorId: \"623a4be15eec415b89ed269\"\n            fromDate: \"2022-03-24\"\n            toDate: \"2022-03-24\"\n            duration: 30\n        }\n    )  {\n            doctorId\n            date\n            fromTime\n            toTime\n    }\n}",
+						"query": "query {\n    findAvailability(\n        input: { \n            doctorId: \"624753578f0653001e66e645\"\n            fromDate: \"2022-04-04\"\n            toDate: \"2022-04-04\"\n            duration: 30\n        }\n    )  {\n            doctorId\n            date\n            fromTime\n            toTime\n    }\n}",
 						"variables": ""
 					}
 				},
