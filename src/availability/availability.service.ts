@@ -6,7 +6,7 @@ import { CreateAvailabilityInput, AllAvailability, FindAvailabilityInput } from 
 import { Availability } from './schemas/availability.schema';
 import { getAvailableTimeslots, createTimeSlots } from '../common/utils/timeEngine';
 import { ConfigService } from '@nestjs/config';
-import { DateTime, Interval } from 'luxon';
+import { DateTime } from 'luxon';
 import { Doctor } from 'src/doctors/schemas/doctor.schema';
 import { IDoctor } from 'src/doctors/interfaces/doctor.interface';
 import { validateTimeSlotInput } from 'src/common/utils/timeValidator';
@@ -30,6 +30,9 @@ export class AvailabilityService {
   }
   if (DateTime.fromISO(toDate).toMillis() < DateTime.fromISO(fromDate).toMillis()) {
     throw new BadRequestException("toDate cannot be less than fromDate")
+  }
+  if (DateTime.fromISO(toDate).toMillis() < DateTime.now().toMillis() || DateTime.fromISO(fromDate).toMillis() < DateTime.now().toMillis() ){
+    throw new BadRequestException("Date cannot be in the past")
   }
 
   if (duration % STEPS !== 0 || duration < STEPS || duration > 45) {
@@ -87,6 +90,13 @@ export class AvailabilityService {
     if (!doctor) {
         throw new NotFoundException(`Doctor #${doctorId} does not exist`);
     }
+
+    const availability = await this.availabilityModel.findOne({ doctorId, date: (new Date(date)) } as unknown).exec();
+
+    if (availability) {
+        throw new BadRequestException(`Availability already exist for this Doctor #${doctorId} and date #${date}`);
+    }
+
 
     validateTimeSlotInput(timeslots);// will throw an error if it fails
 

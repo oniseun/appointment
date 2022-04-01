@@ -37,7 +37,7 @@ export const validateTimeSlotInput = (timeslots) => {
         } else if (x % 2 !== 0 && DateTime.fromISO(currentTime).toMillis() <= DateTime.fromISO(prevTime).toMillis()) {
             throw new BadRequestException(` toTime:${currentTime} should be greater than fromTime: ${prevTime}`)
         } else if (!isOpeningHours(currentTime)) {
-            throw new BadRequestException(` Time ${currentTime} is a closing hour`)
+            throw new BadRequestException(` Time ${currentTime} is not an opening hour`)
         }
     }
     // check if its closing hours

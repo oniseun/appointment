@@ -41,7 +41,7 @@ export class ConsultationService {
     .exec();
 
     if (!consultation) {
-      throw new NotFoundException(`Consultation not found for Id: ${consultationId}`);
+      throw new NotFoundException(`Consultation not found for Id:${consultationId}`);
     }
 
     return consultation
@@ -49,6 +49,11 @@ export class ConsultationService {
 
   public async create(bookConsultationInput: BookConsultationInput): Promise<IConsultation> {
     const { date, doctorId, fromTime, toTime} = bookConsultationInput;
+
+    if (DateTime.fromISO(date).toMillis() < DateTime.now().toMillis() ){
+      throw new BadRequestException("Date cannot be in the past")
+    }
+
     const tz = this.env.get('DEFAULT_TZ')
     DateTime.local().setZone(tz);
     const offset = DateTime.local().toFormat('ZZZ')
@@ -65,7 +70,7 @@ export class ConsultationService {
     .exec();
 
     if (!availability) {
-      throw new NotFoundException(`Availability not not found for date: ${date}`);
+      throw new NotFoundException(`Availability not found for date: ${date}`);
     }
 
     const { timeslots } = availability;
@@ -74,17 +79,22 @@ export class ConsultationService {
     const find = availableTimeSlots.find((ts) => ts.fromTime === fromTime && ts.toTime === toTime); 
 
     if (!find) {
-      throw new BadRequestException(`Timeslot not available for doctor on date ${date}: ${doctorId}`);
+      throw new BadRequestException(`Timeslot not available for doctor #${doctorId} on date ${date}`);
     }
     const createPayload = {...bookConsultationInput, tz, fromDateTime, toDateTime }
-    const newConsultation = await this.consultationModel.create(createPayload);
-    const updatedTimeSlot = bookTimeSlot(fromTime, toTime, JSON.parse(timeslots), STEPS)
-    await this.availabilityModel.findByIdAndUpdate({ _id: availability._id, doctorId, date },
-      { timeslots: JSON.stringify(updatedTimeSlot) },
-    );
-    return newConsultation
 
-    
+    try {
+      const newConsultation = await this.consultationModel.create(createPayload);
+      const updatedTimeSlot = bookTimeSlot(fromTime, toTime, JSON.parse(timeslots), STEPS)
+      await this.availabilityModel.findByIdAndUpdate({ _id: availability._id, doctorId, date },
+        { timeslots: JSON.stringify(updatedTimeSlot) },
+      );
+      return newConsultation
+    } catch (e) {
+      console.error(e)
+      throw new BadRequestException(`An Error Occured while creating consultation`, e);
+    }
+
   }
   
 }
