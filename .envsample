@@ -1,0 +1,3 @@
+PORT=2022
+MONGODB_URL="mongodb://127.0.0.1:27017/appointment"
+DEFAULT_TZ=Europe/Berlin
