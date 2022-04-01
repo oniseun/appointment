@@ -21,7 +21,6 @@ export class DoctorsService {
     const doctor = await this.doctorModel.findById({ _id: doctorId }).exec();
 
     if (!doctor) {
-      console.error(doctor)
       throw new NotFoundException(`Doctor #${doctorId} not found`);
     }
 

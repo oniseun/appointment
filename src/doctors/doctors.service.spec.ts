@@ -100,7 +100,7 @@ describe('DoctorsService', () => {
 
     it('should throw if find one doctor throws', async () => {
       jest.spyOn(model, 'findById').mockReturnValueOnce({
-        exec: jest.fn(() => null),
+        exec: jest.fn(() => undefined),
         populate: jest.fn().mockReturnThis(),
       } as any);
       await expect(service.findOne('anyid')).rejects.toThrow(

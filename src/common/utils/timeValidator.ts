@@ -31,13 +31,13 @@ export const validateTimeSlotInput = (timeslots) => {
         const prevTime = tsList[x - 1]
         const currentTime = tsList[x]
         if (!DateTime.fromISO(currentTime).isValid) {
-            throw new BadRequestException(` Time: ${currentTime} is an Invalid time, please use format 'mm:hh'`)
+            throw new BadRequestException(`Time: ${currentTime} is an Invalid time, please use format 'mm:hh'`)
         } else if (x !== 0 && x % 2 === 0 && DateTime.fromISO(prevTime).toMillis() > DateTime.fromISO(currentTime).toMillis()) {
             throw new BadRequestException(`previous end time ${prevTime} cannot be greater than next start time ${currentTime}`)
         } else if (x % 2 !== 0 && DateTime.fromISO(currentTime).toMillis() <= DateTime.fromISO(prevTime).toMillis()) {
-            throw new BadRequestException(` toTime:${currentTime} should be greater than fromTime: ${prevTime}`)
+            throw new BadRequestException(`toTime:${currentTime} should be greater than fromTime: ${prevTime}`)
         } else if (!isOpeningHours(currentTime)) {
-            throw new BadRequestException(` Time ${currentTime} is not an opening hour`)
+            throw new BadRequestException(`Time ${currentTime} is not an opening hour`)
         }
     }
     // check if its closing hours

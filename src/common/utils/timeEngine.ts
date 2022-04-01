@@ -6,7 +6,7 @@
 import { DateTime, Interval } from 'luxon';
 
 
-const roundMinutes = (min: number, steps: number) => {
+export const roundMinutes = (min: number, steps: number) => {
   return Math.ceil(min / steps) * steps
 }
 
