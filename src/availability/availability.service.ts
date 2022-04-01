@@ -7,9 +7,9 @@ import { Availability } from './schemas/availability.schema';
 import { getAvailableTimeslots, createTimeSlots } from '../common/utils/timeEngine';
 import { ConfigService } from '@nestjs/config';
 import { DateTime } from 'luxon';
-import { Doctor } from 'src/doctors/schemas/doctor.schema';
-import { IDoctor } from 'src/doctors/interfaces/doctor.interface';
-import { validateTimeSlotInput } from 'src/common/utils/timeValidator';
+import { Doctor } from '../doctors/schemas/doctor.schema';
+import { IDoctor } from '../doctors/interfaces/doctor.interface';
+import { validateTimeSlotInput } from '../common/utils/timeValidator';
 const STEPS = 15;
 const MAX_MINUTES = 45
 @Injectable()

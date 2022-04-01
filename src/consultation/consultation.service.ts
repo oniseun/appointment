@@ -5,8 +5,8 @@ import { IConsultation } from './interfaces/consultation.interface';
 import { BookConsultationInput, GetConsultationsInput } from './consultation.model';
 import { Consultation } from './schemas/consultation.schema';
 import { getAvailableTimeslots, bookTimeSlot } from '../common/utils/timeEngine';
-import { Availability } from 'src/availability/schemas/availability.schema';
-import { IAvailability } from 'src/availability/interfaces/availability.interface';
+import { Availability } from '../availability/schemas/availability.schema';
+import { IAvailability } from '../availability/interfaces/availability.interface';
 import { ConfigService } from '@nestjs/config';
 import { DateTime, Interval } from 'luxon';
 
