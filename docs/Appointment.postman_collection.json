@@ -13,7 +13,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "query {\n    getAllDoctors {\n        fullName\n        age\n        specialization\n        sex\n    }\n}",
+						"query": "query {\n    getAllDoctors {\n        _id\n        fullName\n        age\n        specialization\n    }\n}",
 						"variables": ""
 					}
 				},
@@ -37,7 +37,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "query {\n    getDoctor(\n    doctorId: \"00000000000000000000739e74727078837e6699f905d71a17c3167fdce741d2\"\n  ) {\n        fullName\n        age\n        specialization\n        sex\n    }\n}",
+						"query": "query {\n    getDoctor(\n        doctorId: \"623a4d21b1332b5c4c79e5a7\"\n  ) {\n        _id\n        fullName\n        age\n        specialization\n    }\n}",
 						"variables": ""
 					}
 				},
@@ -133,7 +133,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "query {\n    getAllAvailability(\n        input: { \n            doctorId: \"623a4be15eec415b89e0d269\"\n            fromDate: \"2022-03-24\"\n            toDate: \"2022-03-24\"\n            duration: 30\n        }\n    )  {\n            doctorId\n            fromDate\n            toDate\n            duration\n            timeslots {\n                date\n                timeSlots {\n                    key\n                    from {\n                        hour \n                        min\n                        available\n                    }\n                    to {\n                        hour \n                        min\n                        available\n                    }\n                    slots\n                }\n            }\n    }\n}",
+						"query": "query {\n    getAllAvailability(\n        input: { \n            doctorId: \"623a4be15eec415b89ed269\"\n            fromDate: \"2022-03-24\"\n            toDate: \"2022-03-24\"\n            duration: 30\n        }\n    )  {\n            doctorId\n            date\n            fromTime\n            toTime\n    }\n}",
 						"variables": ""
 					}
 				},
