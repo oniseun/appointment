@@ -22,41 +22,50 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+### Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+### Installation
 
-```bash
-```
 
 ## Run with Docker [Run very simply] Recommended!
 
-There is a `docker-compose.yml` file for starting MongoDB and backend with Docker.
+```bash
+# There is a `docker-compose.yml` file for starting MongoDB and backend with Docker.
 
-`$ docker-compose up`
+$ docker-compose up
 
-Go to 
+# Go to 
+$ http://localhost:2022/graphql
 
-`$ http://localhost:2022/graphql`
+# After running, you can stop the Docker container with
 
-After running, you can stop the Docker container with
-
-`$ docker-compose down`
+$ docker-compose down
 
 ## Postman Documentation Import
-```bash
+
 # collection
 $ src/docs/Appointment.postman_collection.json
 
 # environment
 $ src/docs/Appointment.postman_environment.json
 
-```
-```bash
+## Main graphl methods 
 
-## `Run with npm`
+- `addDoctor`: Creates a new Doctor 
+
+- `createAvailability`: Enter the doctor’s availability into the system. input => { doctorId, date and timeslots[]}
+
+- `findAvailability`: Query the system given for available timeslots. input => { doctorId, fromDate, toDate, duration(in minutes) }
+
+- `bookConsultation`: Book a consultation from availabble timeslots with a unique consultationId. input => { doctorId, fromTime, toTime, patientName, consultationId }
+
+```
+
+
+## Run with npm
+
 ```bash
 # use node 14
 $ nvm use v14.17.1
