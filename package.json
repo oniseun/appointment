@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json --detectOpenHandles"
   },
   "dependencies": {
-    "@apollo/federation": "^0.35.4",
+    "@apollo/federation": "^0.38.0",
     "@nestjs/apollo": "^10.0.8",
     "@nestjs/common": "^8.1.1",
     "@nestjs/config": "^1.1.5",
